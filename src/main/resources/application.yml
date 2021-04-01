@@ -9,16 +9,18 @@ spring:
 spring:
   profiles: local
   kafka:
+    default-topic: library-events
     producer:
-      bootstrap-servers: localhost:9092, localhost:9093, localhost:9094
+      bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
     #admin is used for kafkaAdmin
     admin:
       properties:
-        bootstrap.servers: localhost:9092, localhost:9093, localhost:9094
+        bootstrap.servers: localhost:9092
 
 ---
+
 spring:
   profiles: dev
   kafka:
