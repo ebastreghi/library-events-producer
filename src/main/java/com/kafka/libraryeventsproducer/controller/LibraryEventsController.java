@@ -2,6 +2,7 @@ package com.kafka.libraryeventsproducer.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kafka.libraryeventsproducer.domain.LibraryEvent;
+import com.kafka.libraryeventsproducer.domain.LibraryEventType;
 import com.kafka.libraryeventsproducer.producer.LibraryEventProducer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +32,7 @@ public class LibraryEventsController {
     public ResponseEntity<LibraryEvent> postLibraryEvent(@RequestBody LibraryEvent libraryEvent) throws JsonProcessingException, ExecutionException, InterruptedException, TimeoutException {
 
         log.info("before producer");
+        libraryEvent.setLibraryEventType(LibraryEventType.NEW);
         //libraryEventProducer.sendLibraryEvent(libraryEvent);
         //libraryEventProducer.sendLibraryEventSync(libraryEvent);
         libraryEventProducer.sendLibraryEventWithProducerRecord(libraryEvent);
