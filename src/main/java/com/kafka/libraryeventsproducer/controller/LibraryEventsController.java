@@ -32,7 +32,8 @@ public class LibraryEventsController {
 
         log.info("before producer");
         //libraryEventProducer.sendLibraryEvent(libraryEvent);
-        libraryEventProducer.sendLibraryEventSync(libraryEvent);
+        //libraryEventProducer.sendLibraryEventSync(libraryEvent);
+        libraryEventProducer.sendLibraryEventWithProducerRecord(libraryEvent);
         log.info("after producer");
         return ResponseEntity.status(HttpStatus.CREATED).body(libraryEvent);
     }
