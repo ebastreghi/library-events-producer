@@ -1,0 +1,23 @@
+version: '2'
+services:
+  web:
+    #build: indicate that I'm gonna ne required to build an image before the runtime. = command docker build
+    #when we use build we don't use a ready image
+    build:
+      #context: which context files it's gonna ne used to build the image
+      context: ./com
+      #the dockerfile name to build the image
+      dockerfile: DockerFile
+      #args: the arguments that Dockerfile is going to use
+      args:
+        versao: 1
+    ports:
+      - 5000:5000
+    #pass the env to the container
+    environment:
+      - HOST_RUN=${HOST_RUN}
+    labels:
+      - 'app.environment=${ENV_APP}'
+  redis:
+    #this service is going to use a ready image
+    image: redis
