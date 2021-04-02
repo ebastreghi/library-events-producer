@@ -29,12 +29,6 @@ dependencies {
     compile('io.springfox:springfox-swagger-ui:2.9.2')
 }
 
-sourceSets{
-    test{
-        java.srcDirs = ['src/test/java/com/kafka/libraryeventsproducer/unit', 'src/test/java/com/kafka/libraryeventsproducer/intg']
-    }
-}
-
 test {
 	useJUnitPlatform()
 }
