@@ -1,7 +1,5 @@
 package com.kafka.libraryeventsproducer;
 
-
-
 import com.kafka.libraryeventsproducer.domain.Book;
 import com.kafka.libraryeventsproducer.domain.LibraryEvent;
 import org.apache.kafka.clients.consumer.Consumer;
@@ -54,7 +52,8 @@ class LibraryEventsControllerIntegrationTest {
     //is used to not charge the memory
     @AfterEach
     void tearDown(){
-        //consumer.close();
+        //comment this line to debug
+        consumer.close();
     }
 
 
@@ -79,6 +78,10 @@ class LibraryEventsControllerIntegrationTest {
 
         //when
         //LibraryEvent.class is the response
+        /**
+         * When pass by this line the test enter in the postLibraryEvent controller and there produce the message to the EmbeddedKafka
+         * calling the method sendLibraryEventWithProducerRecord
+         */
         ResponseEntity<LibraryEvent> responseEntity = restTemplate.exchange("/v1/libraryevent", HttpMethod.POST, request, LibraryEvent.class);
 
         //then
