@@ -60,4 +60,52 @@ public class LibraryEventsControllerUnitTest {
 
     }
 
+    @Test
+    void postLibraryEvent_4xx() throws Exception {
+        //given
+        LibraryEvent libraryEvent = LibraryEvent.builder()
+                .libraryEventId(null)
+                .book(null)
+                .build();
+
+        String json = objectMapper.writeValueAsString(libraryEvent);
+        doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(libraryEvent);
+
+        //when
+        //this is not going to call the libraryEventProducer, is only mocking the controller
+        mockMvc.perform(
+                post("/v1/libraryevent")
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
+                //then
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void postLibraryEvent_4xxAdvice() throws Exception {
+        //given
+        Book book = Book.builder()
+                .bookId(null)
+                .bookAuthor(null)
+                .bookName("Kafka using Spring Boot")
+                .build();
+
+        LibraryEvent libraryEvent = LibraryEvent.builder()
+                .libraryEventId(null)
+                .book(book)
+                .build();
+
+        String json = objectMapper.writeValueAsString(libraryEvent);
+        doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(libraryEvent);
+
+        //when
+        //this is not going to call the libraryEventProducer, is only mocking the controller
+        mockMvc.perform(
+                post("/v1/libraryevent")
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
+                //then
+                .andExpect(status().is4xxClientError());
+    }
+
 }
