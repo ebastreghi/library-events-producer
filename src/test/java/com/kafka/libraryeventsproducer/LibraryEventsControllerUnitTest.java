@@ -13,7 +13,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -48,7 +50,8 @@ public class LibraryEventsControllerUnitTest {
                 .build();
 
         String json = objectMapper.writeValueAsString(libraryEvent);
-        doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(libraryEvent);
+        //doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(libraryEvent);
+        when(libraryEventProducer.sendLibraryEventWithProducerRecord(isA(LibraryEvent.class))).thenReturn(null);
 
         //when
         //this is not going to call the libraryEventProducer, is only mocking the controller
@@ -70,7 +73,8 @@ public class LibraryEventsControllerUnitTest {
                 .build();
 
         String json = objectMapper.writeValueAsString(libraryEvent);
-        doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(libraryEvent);
+        //doNothing().when(libraryEventProducer).sendLibraryEventWithProducerRecord(libraryEvent);
+        when(libraryEventProducer.sendLibraryEventWithProducerRecord(isA(LibraryEvent.class))).thenReturn(null);
 
         //when
         //this is not going to call the libraryEventProducer, is only mocking the controller
