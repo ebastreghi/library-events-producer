@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //this annotation is used to write unit testes in controller layers
@@ -100,12 +101,14 @@ public class LibraryEventsControllerUnitTest {
 
         //when
         //this is not going to call the libraryEventProducer, is only mocking the controller
+        String expectedErrorMessage = "book.bookAuthor - must not be blankbook.bookId - must not be null";
         mockMvc.perform(
                 post("/v1/libraryevent")
                         .content(json)
                         .contentType(MediaType.APPLICATION_JSON))
                 //then
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().string(expectedErrorMessage));
     }
 
 }
