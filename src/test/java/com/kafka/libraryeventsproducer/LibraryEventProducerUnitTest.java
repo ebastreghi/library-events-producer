@@ -30,7 +30,7 @@ public class LibraryEventProducerUnitTest {
     @Spy
     ObjectMapper objectMapper = new ObjectMapper();
 
-    //you can use in order to create an instance od the class that is under test
+    //you can use in order to create an instance of the class that is under test
     @InjectMocks
     LibraryEventProducer libraryEventProducer;
 

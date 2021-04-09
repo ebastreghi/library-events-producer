@@ -61,7 +61,7 @@ public class LibraryEventProducer {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             throw e;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -88,23 +88,23 @@ public class LibraryEventProducer {
         return listenableFuture;
     }
 
-    private ProducerRecord<Integer, String> buildProducerRecord(Integer key, String value, String topic){
+    private ProducerRecord<Integer, String> buildProducerRecord(Integer key, String value, String topic) {
         List<Header> recordHeaders = List.of(new RecordHeader("event-source", "scanner".getBytes()));
         return new ProducerRecord<>(topic, null, key, value, recordHeaders);
     }
 
-    private void handleFailure(Integer key, String value, Throwable ex){
+    private void handleFailure(Integer key, String value, Throwable ex) {
         log.error("Error sending the message and the exception is {}", ex.getMessage());
         try {
             throw ex;
-        }catch (Throwable throwable){
+        } catch (Throwable throwable) {
             log.error("Error in onfailure: {}", throwable.getMessage());
         }
     }
 
-    private void handleSuccess(Integer key, String value, SendResult<Integer, String> result){
+    private void handleSuccess(Integer key, String value, SendResult<Integer, String> result) {
         log.info("Message sent successfully for the key : {} and the value is {}, partition is {}",
-        key, value, result.getRecordMetadata().partition()
+                key, value, result.getRecordMetadata().partition()
         );
     }
 
