@@ -10,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.concurrent.ExecutionException;
@@ -31,9 +28,23 @@ public class LibraryEventsController {
     @PostMapping
     @ApiOperation("postlibraryevent")
     public ResponseEntity<LibraryEvent> postLibraryEvent(@RequestBody @Valid LibraryEvent libraryEvent) throws JsonProcessingException, ExecutionException, InterruptedException, TimeoutException {
-
         log.info("before producer");
         libraryEvent.setLibraryEventType(LibraryEventType.NEW);
+        //libraryEventProducer.sendLibraryEvent(libraryEvent);
+        //libraryEventProducer.sendLibraryEventSync(libraryEvent);
+        libraryEventProducer.sendLibraryEventWithProducerRecord(libraryEvent);
+        log.info("after producer");
+        return ResponseEntity.status(HttpStatus.CREATED).body(libraryEvent);
+    }
+
+    @PutMapping
+    @ApiOperation("putlibraryevent")
+    public ResponseEntity<?> putLibraryEvent(@RequestBody @Valid LibraryEvent libraryEvent) throws JsonProcessingException, ExecutionException, InterruptedException, TimeoutException {
+        if(libraryEvent.getLibraryEventId() == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please pass the LibraryEventId");
+        }
+        log.info("before producer");
+        libraryEvent.setLibraryEventType(LibraryEventType.UPDATE);
         //libraryEventProducer.sendLibraryEvent(libraryEvent);
         //libraryEventProducer.sendLibraryEventSync(libraryEvent);
         libraryEventProducer.sendLibraryEventWithProducerRecord(libraryEvent);
